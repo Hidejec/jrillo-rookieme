@@ -1,27 +1,18 @@
-import uuid from "uuid";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { TeamEntity } from '../entity';
+import { addTeam } from '../entity';
 
 export const team: APIGatewayProxyHandlerV2 = async (event) => {
-  try {
-    const { body: { teamName } }: any = event;
-    // return bad request, teamName is required
-    if (!teamName) return { statusCode: 400 }
+  const { teamName }: any = event.body ? JSON.parse(event.body) : {};
 
-    const res = await TeamEntity.create({
-      teamId: uuid.v1(),
-      teamName
-    }).go();
+  // return bad request, teamName is required
+  if (!teamName) return { statusCode: 400, body: 'teamName is required' }
+  const res = await addTeam(teamName);
+  console.log(res);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(res),
-    };
-  } catch (err) {
-    return {
-      statusCode: 400,
-    };
-  }
+  return {
+    statusCode: 200,
+    body: JSON.stringify(event),
+  };
 };
 
 export const player: APIGatewayProxyHandlerV2 = async (event) => {

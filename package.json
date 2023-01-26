@@ -20,8 +20,7 @@
     "vitest": "^0.28.2"
   },
   "dependencies": {
-    "@serverless-stack/node": "^1.18.4",
-    "electrodb": "^2.4.1"
+    "@serverless-stack/node": "^1.18.4"
   },
   "workspaces": [
     "services"

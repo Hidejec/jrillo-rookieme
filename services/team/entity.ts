@@ -1,29 +1,65 @@
-import DynamoDB from "aws-sdk/clients/dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { EntityConfiguration } from "electrodb";
 import { Entity } from 'electrodb';
+import { v1 } from 'uuid';
+import { Table } from "@serverless-stack/node/table";
 
-const client = new DynamoDB.DocumentClient();
-const table = 'Team';
+const Client = new DynamoDBClient({
+  region: 'ap-southeast-1'
+});
 
-export const TeamEntity = new Entity({
+const Configuration: EntityConfiguration = {
+  table: Table.Team.tableName,
+  client: Client,
+};
+
+const TeamEntity = new Entity({
   model: {
-    entity: 'team',
+    entity: 'Team',
     version: '1',
     service: 'rookieme'
   },
   attributes: {
     teamId: {
       type: 'string',
+      required: true,
+      readOnly: true
     },
     teamName: {
-      type: 'string'
+      type: 'string',
+      required: true,
     }
   },
   indexes: {
-    teamId: {
+    primary: {
       pk: {
         field: "pk",
         composite: ["teamId"],
       },
+      sk: {
+        field: "sk",
+        composite: [],
+      },
+    },
+    byTeam: {
+      index: "gsi1",
+      pk: {
+        field: "gsi1pk",
+        composite: ["teamName"],
+      },
+      sk: {
+        field: "gsi1sk",
+        composite: ["teamId"],
+      },
     },
   }
-}, {client, table});
+}, Configuration);
+
+export async function addTeam(teamName: string) {
+  const result = await TeamEntity.create({
+    teamId: v1(),
+    teamName,
+  }).go();
+
+  return result.data;
+}

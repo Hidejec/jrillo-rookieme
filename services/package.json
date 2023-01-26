@@ -4,7 +4,9 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "aws-sdk": "^2.1302.0"
+    "@aws-sdk/client-dynamodb": "^3.258.0",
+    "aws-sdk": "^2.1302.0",
+    "electrodb": "^2.4.1"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.109",

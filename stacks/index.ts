@@ -1,3 +1,4 @@
+import { DatabaseStack } from "./DatabaseStack";
 import { MyStack } from "./MyStack";
 import { App } from "@serverless-stack/resources";
 
@@ -10,5 +11,6 @@ export default function (app: App) {
     },
   });
   // rename this to ApiStack
-  app.stack(MyStack);
+  app.stack(DatabaseStack)
+     .stack(MyStack);
 }
