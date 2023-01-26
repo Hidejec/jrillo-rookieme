@@ -1,11 +1,16 @@
 import { StackContext, Api } from "@serverless-stack/resources";
 import TeamRoutes from '../services/functions/team/routes';
+import PlayerRoutes from '../services/functions/player/routes';
 
 export function MyStack({ stack }: StackContext) {
-  const api = new Api(stack, "Team", {
+  const teamAPI = new Api(stack, "Team", {
     routes: TeamRoutes,
   });
+  const playerAPI = new Api(stack, "Player", {
+    routes: PlayerRoutes,
+  });
   stack.addOutputs({
-    ApiEndpoint: api.url,
+    TeamAPIEndpoint: teamAPI.url,
+    PlayerAPIEndpoint: playerAPI.url,
   });
 }

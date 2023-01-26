@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 
 export const team: APIGatewayProxyHandlerV2 = async (event) => {
+  // use electrodb with dynamodb
   return {
     statusCode: 200,
     headers: { "Content-Type": "text/plain" },
