@@ -15,7 +15,7 @@ const Configuration: EntityConfiguration = {
 
 const PlayerEntity = new Entity({
   model: {
-    entity: 'Team',
+    entity: 'Player',
     version: '1',
     service: 'rookieme'
   },
