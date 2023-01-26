@@ -9,5 +9,6 @@ export default function (app: App) {
       format: "esm",
     },
   });
+  // rename this to ApiStack
   app.stack(MyStack);
 }
