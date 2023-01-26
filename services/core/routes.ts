@@ -1,4 +1,4 @@
-const BASE_URL: string = 'team/api';
+const BASE_URL: string = 'api';
 
 export default {
     'GET /': `${BASE_URL}/get.team`,

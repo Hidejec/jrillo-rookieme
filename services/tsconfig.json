@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-  "include": ["player", "team"],
+  "include": ["api", "core", "test"],
   "compilerOptions": {
     "module": "esnext",
     "target": "es2017",

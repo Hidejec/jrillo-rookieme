@@ -8,4 +8,8 @@ export function DatabaseStack({ stack }: StackContext) {
     },
     primaryIndex: { partitionKey: "teamId", sortKey: "teamName" },
   });
+
+  // add more tables if needed
+  // microservice - usually 1 table per service (e.g. Team microservice)
+  // for this example, we return 1 table only
 }

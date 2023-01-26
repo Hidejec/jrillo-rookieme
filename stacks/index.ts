@@ -10,7 +10,6 @@ export default function (app: App) {
       format: "esm",
     },
   });
-  // rename this to ApiStack
   app.stack(DatabaseStack)
-     .stack(MyStack);
+     .stack(MyStack); // rename to ApiStack
 }
