@@ -9,23 +9,28 @@ const Client = new DynamoDBClient({
 });
 
 const Configuration: EntityConfiguration = {
-  table: Table.Team.tableName,
+  table: Table.Player.tableName,
   client: Client,
 };
 
-const TeamEntity = new Entity({
+const PlayerEntity = new Entity({
   model: {
     entity: 'Team',
     version: '1',
     service: 'rookieme'
   },
   attributes: {
+    playerId: {
+      type: 'string',
+      required: true,
+      readOnly: true
+    },
     teamId: {
       type: 'string',
       required: true,
       readOnly: true
     },
-    teamName: {
+    playerName: {
       type: 'string',
       required: true,
     }
@@ -34,31 +39,40 @@ const TeamEntity = new Entity({
     primary: {
       pk: {
         field: "pk",
-        composite: ["teamId"],
+        composite: ["playerId"],
       },
       sk: {
         field: "sk",
-        composite: [],
+        composite: ["playerName"],
       },
     },
-    byTeam: {
+    byTeamId: {
       index: "gsi1",
       pk: {
         field: "gsi1pk",
-        composite: ["teamName"],
+        composite: ["teamId"],
       },
       sk: {
         field: "gsi1sk",
-        composite: ["teamId"],
+        composite: ["playerId"],
       },
     },
   }
 }, Configuration);
 
-export async function addTeam(teamName: string) {
-  const result = await TeamEntity.create({
-    teamId: v1(),
-    teamName,
+export async function addTeamPlayer(teamId: string, playerName: string) {
+  const result = await PlayerEntity.create({
+    playerId: v1(), // make sure to check for duplicates
+    teamId,
+    playerName,
+  }).go();
+
+  return result.data;
+}
+
+export async function getTeamPlayers(teamId: string) {
+  const result = await PlayerEntity.query.byTeamId({
+    teamId
   }).go();
 
   return result.data;

@@ -1,24 +1,46 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { addTeam } from '../core/entity';
+import { addTeamPlayer } from "core/player-entity";
+import { addTeam } from '../core/team-entity';
 
 export const team: APIGatewayProxyHandlerV2 = async (event) => {
-  const { teamName }: any = event.body ? JSON.parse(event.body) : {};
+  try {
+    const { teamName }: any = event.body ? JSON.parse(event.body) : {};
 
-  // return bad request, teamName is required
-  if (!teamName) return { statusCode: 400, body: 'teamName is required' }
+    // return bad request, teamName is required
+    if (!teamName) return { statusCode: 400, body: JSON.stringify({ message: 'teamName is required' }) }
 
-  const res = await addTeam(teamName);
+    const res = await addTeam(teamName);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(res),
-  };
+    return {
+      statusCode: 200,
+      body: JSON.stringify(res),
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(err),
+    };
+  }
 };
 
 export const player: APIGatewayProxyHandlerV2 = async (event) => {
-  return {
-    statusCode: 200,
-    headers: { "Content-Type": "text/plain" },
-    body: `Testing create a player to the team API.`,
-  };
+  try {
+    const { playerName }: any = event.body ? JSON.parse(event.body) : {};
+    const { teamId }: any = event.pathParameters ? event.pathParameters : {};
+
+    // return bad request, playerName required
+    if (!playerName) return { statusCode: 400, body: JSON.stringify({ message: 'playerName required'}) }
+
+    const res = await addTeamPlayer(teamId, playerName);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(res),
+    };
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(err),
+    };
+  }
 };

@@ -10,7 +10,7 @@ export function MyStack({ stack }: StackContext) {
   const teamAPI = new Api(stack, "Team", {
     defaults: {
       function: {
-        bind: [table],
+        bind: [table.team, table.player],
       },
     },
     routes: TeamRoutes,

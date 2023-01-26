@@ -1,7 +1,8 @@
 const BASE_URL: string = 'api';
 
 export default {
-    'GET /': `${BASE_URL}/get.team`,
+    'GET /{teamId}': `${BASE_URL}/get.team`,
+    'GET /{teamId}/players': `${BASE_URL}/get.teamPlayers`,
     'POST /': `${BASE_URL}/create.team`,
-    'POST /player': `${BASE_URL}/create.player`,
+    'POST /{teamId}/player': `${BASE_URL}/create.player`,
 }
